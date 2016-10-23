@@ -31,13 +31,18 @@ for subjid in range(1, 4):
     subj = str(subjid)
     for elec in range(16):
         path = os.path.join(basedir, 'test.' + subj + '.' + str(elec) + '.npy')
-        vals = np.load(path)
+        try:
+            vals = np.load(path)
+        except:
+            print("Skipped subject %d channel %d" % (subjid, elec))
+            continue
         vals = vals.reshape((vals.shape[0], 1))
         subjpreds = vals if elec == 0 else np.hstack((subjpreds, vals))
     meanpreds = subjpreds.mean(axis=1)
     preds = meanpreds if subjid == 1 else np.hstack((preds, meanpreds))
 
-files = np.loadtxt(sys.argv[1], dtype=str, delimiter=',', skiprows=1, usecols=[0])
+files = np.loadtxt(sys.argv[1], dtype=str,
+                   delimiter=',', skiprows=1, usecols=[0])
 assert preds.shape[0] == len(files)
 
 with open('subm.csv', 'w') as fd:
