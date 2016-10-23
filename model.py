@@ -58,7 +58,8 @@ tain_idx, test_idx = indexer.run(data_dir, pattern, testing=args.test_mode)
 
 fs = 400
 cd = 240000 * 1000 / fs
-common_params = dict(sampling_freq=fs, clip_duration=cd, frame_duration=512)
+common_params = dict(
+    sampling_freq=fs, clip_duration=int(cd), frame_duration=512)
 tain_params = AudioParams(random_scale_percent=5.0, **common_params)
 test_params = AudioParams(**common_params)
 common = dict(target_size=1, nclasses=2)

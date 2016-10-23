@@ -22,6 +22,7 @@ import numpy as np
 
 
 class Indexer:
+
     def __init__(self):
         pass
 
@@ -69,7 +70,7 @@ class Indexer:
                 tain_fd.write('filename,label\n')
                 test_fd.write('filename,label\n')
                 segms = np.unique([int(f.split('_')[1]) for f in files])
-                hours = range(segms.min(), segms.max() + 1, 6)
+                hours = list(range(segms.min(), segms.max() + 1, 6))
                 np.random.shuffle(hours)
                 tain_count = (len(hours) * train_percent) // 100
                 tain_hours = hours[:tain_count]
