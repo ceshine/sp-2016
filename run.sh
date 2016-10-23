@@ -53,9 +53,9 @@ do
 
     echo Processing subject $subj...
     # Validate
-    ./model.py -e $num_epochs -w $train_dir -r 0 -z $bsz -v --no_progress_bar -out $out_dir -validate
+    python model.py -e $num_epochs -w $train_dir -r 0 -z $bsz -v --no_progress_bar -out $out_dir -validate
     # Test
-    ./model.py -e $num_epochs -w $train_dir -r 0 -z $bsz -v --no_progress_bar -out $out_dir
+    python model.py -e $num_epochs -w $train_dir -r 0 -z $bsz -v --no_progress_bar -out $out_dir
 done
 
-./subm.py sample_submission.csv $out_dir
+python subm.py sample_submission.csv $out_dir

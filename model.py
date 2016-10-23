@@ -38,8 +38,10 @@ from loader import EegLoader
 
 
 parser = NeonArgparser(__doc__)
-parser.add_argument('-out', '--out_dir', default='preds', help='directory to write output files')
-parser.add_argument('-validate', '--validate_mode', action="store_true", help="validate on training data")
+parser.add_argument('-out', '--out_dir', default='preds',
+                    help='directory to write output files')
+parser.add_argument('-validate', '--validate_mode',
+                    action="store_true", help="validate on training data")
 
 args = parser.parse_args()
 data_dir = args.data_dir
@@ -76,7 +78,8 @@ opt = Adagrad(learning_rate=0.0001)
 callbacks = Callbacks(model, eval_set=test, **args.callback_args)
 cost = GeneralizedCost(costfunc=CrossEntropyBinary())
 
-model.fit(tain, optimizer=opt, num_epochs=args.epochs, cost=cost, callbacks=callbacks)
+model.fit(tain, optimizer=opt, num_epochs=args.epochs,
+          cost=cost, callbacks=callbacks)
 preds = model.get_outputs(test)[:, 1]
 
 if args.validate_mode:

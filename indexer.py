@@ -22,6 +22,7 @@ import numpy as np
 
 
 class Indexer:
+
     def __init__(self, repo_dir, subj, validate_mode, training):
         self.repo_dir = repo_dir
         self.subj = subj
@@ -30,7 +31,8 @@ class Indexer:
 
     def get_filename(self, tain_path, test_path, elec):
         def get_path(basepath, name, elec):
-            filename = name + '-' + str(self.subj) + '-' + str(elec) + '-index.csv'
+            filename = name + '-' + \
+                str(self.subj) + '-' + str(elec) + '-index.csv'
             return os.path.join(basepath, filename)
 
         assert os.path.exists(tain_path), 'Path not found: %s' % tain_path
@@ -43,7 +45,8 @@ class Indexer:
             if self.validate_mode:
                 idx_file = get_path(tain_path, 'eval', elec)
             else:
-                assert os.path.exists(test_path), 'Path not found: %s' % test_path
+                assert os.path.exists(
+                    test_path), 'Path not found: %s' % test_path
                 idx_file = get_path(test_path, 'test', elec)
         return idx_file
 
@@ -65,7 +68,8 @@ class Indexer:
             return idx_file
 
         print('Creating %s...' % idx_file)
-        path = tain_path if (self.training or self.validate_mode) else test_path
+        path = tain_path if (
+            self.training or self.validate_mode) else test_path
         pattern = '*.' + str(elec) + '.wav'
         files = glob.glob(os.path.join(path, pattern))
         assert len(files) > 0, 'No .wav files found in %s' % path
@@ -80,12 +84,14 @@ class Indexer:
         if self.validate_mode:
             # Split into training and validation subsets.
             segms = np.unique([get_segm(f) for f in files])
-            # Make sure that segments from the same hour go into the same subset.
+            # Make sure that segments from the same hour go into the same
+            # subset.
             hours = range(segms.min(), segms.max() + 1, 6)
             np.random.seed(0)
             np.random.shuffle(hours)
             tain_count = (len(hours) * train_percent) // 100
-            chosen_hours = hours[:tain_count] if self.training else hours[tain_count:]
+            chosen_hours = hours[
+                :tain_count] if self.training else hours[tain_count:]
             chosen_files = []
             for filename in files:
                 segm = get_segm(filename)

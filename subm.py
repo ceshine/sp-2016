@@ -32,7 +32,8 @@ for subjid in range(1, 4):
     vals = np.load(path)
     preds = vals if subjid == 1 else np.hstack((preds, vals))
 
-files = np.loadtxt(sys.argv[1], dtype=str, delimiter=',', skiprows=1, usecols=[0])
+files = np.loadtxt(sys.argv[1], dtype=str,
+                   delimiter=',', skiprows=1, usecols=[0])
 assert preds.shape[0] == len(files)
 
 with open('subm.csv', 'w') as fd:
